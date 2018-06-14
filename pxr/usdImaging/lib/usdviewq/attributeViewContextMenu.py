@@ -22,10 +22,10 @@
 # language governing permissions and limitations under the Apache License.
 #
 import sys
-from qt import QtGui, QtWidgets, QtCore
+from .qt import QtGui, QtWidgets, QtCore
 from pxr import Sdf
-from usdviewContextMenuItem import UsdviewContextMenuItem
-from common import (PropertyViewIndex, PropertyViewDataRoles,
+from .usdviewContextMenuItem import UsdviewContextMenuItem
+from .common import (PropertyViewIndex, PropertyViewDataRoles,
                     PrimNotFoundException, PropertyNotFoundException)
 
 #

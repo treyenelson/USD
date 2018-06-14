@@ -59,7 +59,7 @@ class testUsdReferenceAssemblySelection(unittest.TestCase):
         centerCube = 'Cube_49'
         neighborCube = 'Cube_48'
 
-        neighborFullName = cmds.ls(neighborCube, long=True)[0]
+        neighborFullName = cmds.ls(neighborCube, int=True)[0]
         cmds.select(centerCube)
 
         # make sure more than 1 thing was selected
@@ -92,7 +92,7 @@ class testUsdReferenceAssemblySelection(unittest.TestCase):
         oComp = OM.MObject()
 
         ret = []
-        for i in xrange(selection.length()):
+        for i in range(selection.length()):
             selection.getDagPath(i, pathDag, oComp)
             if not oComp.isNull():
                 continue

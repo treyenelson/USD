@@ -37,7 +37,7 @@ from pxr import Usd, Sdf, UsdGeom
 # Column headers and ID numbers
 #
 COL_HEADERS = ("Name", "Import", "Type", "Variants", "")
-COL_NAME, COL_IMPORT, COL_TYPE, COL_VARIANT, COL_END = range(len(COL_HEADERS))
+COL_NAME, COL_IMPORT, COL_TYPE, COL_VARIANT, COL_END = list(range(len(COL_HEADERS)))
 
 # Method for comparing 2 Sdf.Path objects.
 def ComparePaths(x, y):
@@ -180,7 +180,7 @@ class TreeModel(QAbstractItemModel):
                 self._stage = Usd.Stage.Open(usdFile, Usd.Stage.LoadNone)
             except:
                 if usdFile != '':
-                    print('Error: Tree View failed to open "%s"' % usdFile)
+                    print(('Error: Tree View failed to open "%s"' % usdFile))
 
         if self._stage:
             rootPrim = self._stage.GetPseudoRoot()

@@ -31,7 +31,7 @@
 # were designed for crowds but we can use there here too. To use them
 # we need to declare a scene topology that doesn't change from frame to frame.
 
-from __future__ import print_function
+
 
 import soho
 from glob import glob
@@ -49,7 +49,7 @@ def extractNum( fileName ):
     if m:
         return int( m.groups()[1] )
 
-    return sys.maxint
+    return sys.maxsize
 
 def inrange( v, min, max ):
     return v >= min and v <= max
@@ -226,7 +226,7 @@ def main():
 
     try:
 
-        coalesceFiles( outfile, sourcefiles, range(ff,lf+1), stride )
+        coalesceFiles( outfile, sourcefiles, list(range(ff,lf+1)), stride )
 
     except Exception as e:
         soho.error( 'Failed to stitch USD files: ' + str(e) + '\n' + traceback.format_exc())

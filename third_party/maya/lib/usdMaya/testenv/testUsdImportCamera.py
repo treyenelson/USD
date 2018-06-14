@@ -172,7 +172,7 @@ class testUsdImportCamera(unittest.TestCase):
         return animCurveFn
 
     def _ValidateAnimValuesAtTimes(self, animCurveFn, expectedTimesToValues):
-        for time, expectedValue in expectedTimesToValues.iteritems():
+        for time, expectedValue in expectedTimesToValues.items():
             value = animCurveFn.evaluate(OpenMaya.MTime(time))
             self.assertTrue(Gf.IsClose(expectedValue, value, 1e-6))
 

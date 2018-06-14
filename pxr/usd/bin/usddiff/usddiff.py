@@ -198,7 +198,7 @@ def _runDiff(baseline, comparison, flatten, noeffect):
             if diff:
                 # Skip the file names.
                 for line in diff[2:]:
-                    print line,
+                    print(line, end=' ')
                 diffResult = 1
 
         tempBaselineChanged = ( 
@@ -292,7 +292,7 @@ def _findFiles(args):
         # DIR DIR
         if all(map(isdir, stats)):
             ldir, rdir = args[0], args[1]
-            lhs, rhs = map(listFiles, args)
+            lhs, rhs = list(map(listFiles, args))
             return (
                 # baseline only
                 sorted([join(ldir, p) for p in lhs - rhs]),
@@ -340,10 +340,10 @@ def main():
 
         mismatchMsg = 'No corresponding file found for %s, skipping.'
         for b in baselineOnly:
-            print mismatchMsg % b
+            print(mismatchMsg % b)
 
         for c in comparisonOnly:
-            print mismatchMsg % c
+            print(mismatchMsg % c)
 
     except ValueError as err:
         _exit(str(err), ERROR_EXIT_CODE)

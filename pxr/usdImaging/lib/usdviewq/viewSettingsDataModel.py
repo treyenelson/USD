@@ -22,17 +22,17 @@
 # language governing permissions and limitations under the Apache License.
 #
 
-from qt import QtCore
+from .qt import QtCore
 from pxr import UsdGeom, Sdf
 
-from common import (RenderModes, PickModes, SelectionHighlightModes,
+from .common import (RenderModes, PickModes, SelectionHighlightModes,
     CameraMaskModes, Complexities, PrintWarning)
 
-import settings2
-from settings2 import StateSource
-from constantGroup import ConstantGroup
-from freeCamera import FreeCamera
-from common import ClearColors, HighlightColors
+from . import settings2
+from .settings2 import StateSource
+from .constantGroup import ConstantGroup
+from .freeCamera import FreeCamera
+from .common import ClearColors, HighlightColors
 
 
 # Map of clear color names to rgba color tuples.

@@ -38,8 +38,8 @@ class TestUsdPrim(unittest.TestCase):
             assert hash(p) == hash(q)
 
             # Check that unicode objects convert to sdfpaths.
-            p = s.GetPrimAtPath(u'/')
-            q = s.GetPrimAtPath(u'/')
+            p = s.GetPrimAtPath('/')
+            q = s.GetPrimAtPath('/')
             assert p is not q
             assert p == q
             assert hash(p) == hash(q)
@@ -471,7 +471,7 @@ class TestUsdPrim(unittest.TestCase):
             # but paths to non-existent files fail
             assert s2.ResolveIdentifierToEditTarget("./noFile."+fmt) == ""
             # and paths relative to in-memory layers fail (expected errors?)
-            print "bazRefs = " + s1.ResolveIdentifierToEditTarget("./refTest2."+fmt)
+            print("bazRefs = " + s1.ResolveIdentifierToEditTarget("./refTest2."+fmt))
             assert s1.ResolveIdentifierToEditTarget("./refTest2."+fmt) == "" 
 
             # A good reference generates no errors or exceptions
@@ -595,7 +595,7 @@ class TestUsdPrim(unittest.TestCase):
     def test_GetNextSibling(self):
         import random, time
         seed = int(time.time())
-        print 'GetNextSibling() random seed:', seed
+        print('GetNextSibling() random seed:', seed)
         random.seed(seed)
 
         for fmt in allFormats:

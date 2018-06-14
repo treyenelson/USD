@@ -40,11 +40,11 @@ cylinder = stage.GetPrimAtPath("/CollectionTest/Geom/Shapes/Cylinder")
 cone = stage.GetPrimAtPath("/CollectionTest/Geom/Shapes/Cone")
 
 def _DebugCollection(collection):
-    print "Debugging Collection: ", collection.GetName()
+    print("Debugging Collection: ", collection.GetName())
     mquery = collection.ComputeMembershipQuery()
-    print "-- Included Objects -- "
+    print("-- Included Objects -- ")
     incObjects = Usd.CollectionAPI.ComputeIncludedObjects(mquery, stage)
-    for obj in incObjects: print ".. ", obj.GetPath() 
+    for obj in incObjects: print(".. ", obj.GetPath()) 
 
 class TestUsdCollectionAPI(unittest.TestCase):
     def tearDown(self):
@@ -428,7 +428,7 @@ class TestUsdCollectionAPI(unittest.TestCase):
         mqueryToPath = {}
         for (coll,mquery) in zip(collections, mqueries):
             mqueryToPath[mquery] = coll.GetCollectionPath()
-        self.assertEqual(len(mqueryToPath.keys()), len(mqueries))
+        self.assertEqual(len(list(mqueryToPath.keys())), len(mqueries))
 
 if __name__ == "__main__":
     unittest.main()

@@ -43,7 +43,7 @@ class _MetaConstantGroup(type):
         # Search through the class-level properties and convert them into
         # constants.
         allConstants = list()
-        for key, value in classdict.items():
+        for key, value in list(classdict.items()):
             if (key.startswith("_") or isinstance(value, classmethod) or
                     isinstance(value, staticmethod)):
                 # Ignore variables which start with an underscore, and
@@ -84,11 +84,10 @@ class _MetaConstantGroup(type):
         """Iterate over each constant in the group."""
         return iter(self._all)
 
-class ConstantGroup(object):
+class ConstantGroup(object, metaclass=_MetaConstantGroup):
     """The base constant group class, intended to be inherited by actual groups
     of constants.
     """
-    __metaclass__ = _MetaConstantGroup
 
     def __new__(cls, *args, **kwargs):
         raise TypeError("ConstantGroup objects cannot be created.")

@@ -35,14 +35,14 @@ import maya.api.OpenMaya as OM
 
 def _MMatrixToGf(mx):
     gfmx = Gf.Matrix4d()
-    for i in xrange(4):
-        for j in xrange(4):
+    for i in range(4):
+        for j in range(4):
             gfmx[i][j] = mx[i*4+j]
     return gfmx
 
 
 def _GfMatrixToList(mx):
-    return [mx[i][j] for i in xrange(4) for j in xrange(4)]
+    return [mx[i][j] for i in range(4) for j in range(4)]
 
 
 def _GetDepNode(name):
@@ -55,7 +55,7 @@ def _ArraysAreClose(a, b, threshold=1e-5):
     if not len(a) == len(b):
         return False
 
-    for i in xrange(len(a)):
+    for i in range(len(a)):
         if not Gf.IsClose(a[i], b[i], threshold):
             return False
     return True
@@ -134,21 +134,21 @@ class testUsdImportSkeleton(unittest.TestCase):
             connections = cmds.listConnections(
                 "%s.members[%d]"%(name, i),
                 destination=False, source=True, plugs=True)
-            self.assertEqual(connections, [u"%s.message"%joint.name()])
+            self.assertEqual(connections, ["%s.message"%joint.name()])
 
             connections = cmds.listConnections(
                 "%s.worldMatrix[%d]"%(name, i),
                 destination=False, source=True, plugs=True)
-            self.assertEqual(connections, [u"%s.bindPose"%joint.name()])
+            self.assertEqual(connections, ["%s.bindPose"%joint.name()])
 
             connections = cmds.listConnections(
                 "%s.parents[%d]"%(name, i),
                 destination=False, source=True, plugs=True)
 
             if parentIdx >= 0:
-                self.assertEqual(connections, [u"%s.members[%d]"%(name,parentIdx)])
+                self.assertEqual(connections, ["%s.members[%d]"%(name,parentIdx)])
             else:
-                self.assertEqual(connections, [u"%s.world"%name])
+                self.assertEqual(connections, ["%s.world"%name])
 
         self.assertTrue(cmds.getAttr("bindPose.bindPose"))
 
@@ -191,33 +191,33 @@ class testUsdImportSkeleton(unittest.TestCase):
             destination=True, source=False, plugs=True)
         self.assertEqual(
             sorted(connections),
-            sorted([u"%sShape.instObjGroups.objectGroups[0].objectGroupId"%meshName,
-                    u"%s.groupId"%groupPartsName,
-                    u"%s.input[0].groupId"%skinClusterName]))
+            sorted(["%sShape.instObjGroups.objectGroups[0].objectGroupId"%meshName,
+                    "%s.groupId"%groupPartsName,
+                    "%s.input[0].groupId"%skinClusterName]))
 
         connections = cmds.listConnections(
             "%s.outputGeometry"%groupPartsName,
             destination=True, source=False, plugs=True)
-        self.assertEqual(connections, [u"%s.input[0].inputGeometry"%skinClusterName])
+        self.assertEqual(connections, ["%s.input[0].inputGeometry"%skinClusterName])
 
         connections = cmds.listConnections(
             "%s.outputGeometry[0]"%skinClusterName,
             destination=True, source=False, plugs=True)
-        self.assertEqual(connections, [u"%s.inMesh"%(meshName+"Shape")])
+        self.assertEqual(connections, ["%s.inMesh"%(meshName+"Shape")])
 
         skelRestXforms = usdSkelQuery.ComputeJointSkelTransforms(atRest=True)
 
         connections = cmds.listConnections(
             "%s.bindPose"%skinClusterName,
             destination=False, source=True, plugs=True)
-        self.assertEqual(connections, [u"%s.message"%bindPoseName])
+        self.assertEqual(connections, ["%s.message"%bindPoseName])
 
         for i,joint in enumerate(joints):
 
             connections = cmds.listConnections(
                 "%s.worldMatrix[0]"%joint.name(),
                 destination=True, source=False, plugs=True)
-            self.assertEqual(connections, [u"%s.matrix[%d]"%(skinClusterName,i)])
+            self.assertEqual(connections, ["%s.matrix[%d]"%(skinClusterName,i)])
 
             # bindPreMatrix should be the inverse of the skel-
             # rest tranfsorm.

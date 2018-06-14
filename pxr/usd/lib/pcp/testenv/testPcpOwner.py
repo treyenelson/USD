@@ -141,7 +141,7 @@ class TestPcpOwner(unittest.TestCase):
         (layerStack, errors) = cache.ComputeLayerStack(self.layerStackId)
 
         for err in errors:
-            print >> sys.stderr, err
+            print(err, file=sys.stderr)
             self.assertTrue(isinstance(err, Pcp.ErrorInvalidSublayerOwnership),
                    "Unexpected Error: %s" % err)
 

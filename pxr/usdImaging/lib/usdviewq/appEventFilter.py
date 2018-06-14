@@ -22,7 +22,7 @@
 # language governing permissions and limitations under the Apache License.
 #
 # Qt Components
-from qt import QtCore, QtGui, QtWidgets
+from .qt import QtCore, QtGui, QtWidgets
 
 class AppEventFilter(QtCore.QObject):
     '''This class's primary responsibility is delivering key events to

@@ -22,7 +22,7 @@
 # language governing permissions and limitations under the Apache License.
 #
 
-from __future__ import print_function
+
 
 import sys
 import importlib
@@ -30,7 +30,7 @@ import importlib
 from pxr import Tf
 from pxr import Plug
 
-from qt import QtGui
+from .qt import QtGui
 
 
 class DuplicateCommandPlugin(Exception):
@@ -309,7 +309,7 @@ def loadPlugins(usdviewApi, mainWindow):
     # Load each plugin in alphabetical order by name. For each plugin, load all
     # of its containers in alphabetical order by type name.
     allContainers = []
-    for plugin in sorted(plugins.keys(), key=lambda plugin: plugin.name):
+    for plugin in sorted(list(plugins.keys()), key=lambda plugin: plugin.name):
         plugin.Load()
         pluginContainerTypes = sorted(
             plugins[plugin], key=lambda containerType: containerType.typeName)

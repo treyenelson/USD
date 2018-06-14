@@ -36,7 +36,7 @@ class TestPcpPathTranslation(unittest.TestCase):
 
     def test_PathTranslationWithVariants(self):
         """Tests path translation issues that were at the root of bug 77818"""
-        print "TestPathTranslationWithVariants..."
+        print("TestPathTranslationWithVariants...")
 
         pcpCache = self._GetPcpCacheForLayer(
             "bug77818/unit_main_cam.sdf")
@@ -59,7 +59,7 @@ class TestPcpPathTranslation(unittest.TestCase):
     ############################################################
 
     def test_LocalAbsoluteTargetPaths(self):
-        print "TestLocalAbsoluteTargetPaths..."
+        print("TestLocalAbsoluteTargetPaths...")
 
         pcpCache = self._GetPcpCacheForLayer("Root.sdf")
 
@@ -82,12 +82,12 @@ class TestPcpPathTranslation(unittest.TestCase):
                    "/World/Ref3/RefChild.localSelfAbs" : "/World/Ref3/RefChild",
                    "/World/Ref3/RefChild.localParentAbs" : "/World/Ref3"}
 
-        for (path, expectedTargetPath) in pathMap.items():
+        for (path, expectedTargetPath) in list(pathMap.items()):
             (curTargetPaths, curErrors) = \
                 pcpCache.ComputeRelationshipTargetPaths(path)
 
             for err in curErrors:
-                print >> sys.stderr, err
+                print(err, file=sys.stderr)
             errors += curErrors
 
             self.assertEqual(curTargetPaths, [Sdf.Path(expectedTargetPath)])
@@ -95,7 +95,7 @@ class TestPcpPathTranslation(unittest.TestCase):
         self.assertEqual(len(errors), 0)
 
     def test_LocalRelativeTargetPaths(self):
-        print "TestLocalRelativeTargetPaths..."
+        print("TestLocalRelativeTargetPaths...")
 
         pcpCache = self._GetPcpCacheForLayer("Root.sdf")
 
@@ -118,12 +118,12 @@ class TestPcpPathTranslation(unittest.TestCase):
                    "/World/Ref3/RefChild.localSelfRel" : ".",
                    "/World/Ref3/RefChild.localParentRel" : ".."}
 
-        for (path, expectedTargetPath) in pathMap.items():
+        for (path, expectedTargetPath) in list(pathMap.items()):
             relPath = Sdf.Path(path)
             (curTargetPaths, curErrors) = pcpCache.ComputeRelationshipTargetPaths(relPath)
 
             for err in curErrors:
-                print >> sys.stderr, err
+                print(err, file=sys.stderr)
             errors += curErrors
 
             self.assertEqual(curTargetPaths, 
@@ -132,7 +132,7 @@ class TestPcpPathTranslation(unittest.TestCase):
         self.assertEqual(len(errors), 0)
         
     def test_ReferenceAbsoluteTargetPaths(self):
-        print "TestReferenceAbsoluteTargetPaths..."
+        print("TestReferenceAbsoluteTargetPaths...")
 
         pcpCache = self._GetPcpCacheForLayer("Root.sdf")
 
@@ -152,12 +152,12 @@ class TestPcpPathTranslation(unittest.TestCase):
                    "/World/Ref3/RefChild.refSelfAbs" : "/World/Ref3/RefChild",
                    "/World/Ref3/RefChild.refParentAbs" : "/World/Ref3"}
 
-        for (path, expectedTargetPath) in pathMap.items():
+        for (path, expectedTargetPath) in list(pathMap.items()):
             (curTargetPaths, curErrors) = \
                 pcpCache.ComputeRelationshipTargetPaths(path)
 
             for err in curErrors:
-                print >> sys.stderr, err
+                print(err, file=sys.stderr)
             errors += curErrors
 
             self.assertEqual(curTargetPaths, [Sdf.Path(expectedTargetPath)])
@@ -165,7 +165,7 @@ class TestPcpPathTranslation(unittest.TestCase):
         self.assertEqual(len(errors), 0)
 
     def test_ReferenceRelativeTargetPaths(self):
-        print "TestReferenceRelativeTargetPaths..."
+        print("TestReferenceRelativeTargetPaths...")
 
         pcpCache = self._GetPcpCacheForLayer("Root.sdf")
 
@@ -185,12 +185,12 @@ class TestPcpPathTranslation(unittest.TestCase):
                    "/World/Ref3/RefChild.refSelfRel" : ".",
                    "/World/Ref3/RefChild.refParentRel" : ".."}
 
-        for (path, expectedTargetPath) in pathMap.items():
+        for (path, expectedTargetPath) in list(pathMap.items()):
             relPath = Sdf.Path(path)
             (curTargetPaths, curErrors) = pcpCache.ComputeRelationshipTargetPaths(relPath)
 
             for err in curErrors:
-                print >> sys.stderr, err
+                print(err, file=sys.stderr)
             errors += curErrors
 
             self.assertEqual(curTargetPaths, 
@@ -199,7 +199,7 @@ class TestPcpPathTranslation(unittest.TestCase):
         self.assertEqual(len(errors), 0)
 
     def test_ReferenceErrorCases(self):
-        print "TestReferenceErrorCases..."
+        print("TestReferenceErrorCases...")
 
         pcpCache = self._GetPcpCacheForLayer("Root.sdf")
 
@@ -225,7 +225,7 @@ class TestPcpPathTranslation(unittest.TestCase):
             errors += curErrors
 
         for err in errors:
-            print >> sys.stderr, err
+            print(err, file=sys.stderr)
             self.assertTrue(isinstance(err, Pcp.ErrorInvalidExternalTargetPath), 
                    "Unexpected Error: %s" % err)
 

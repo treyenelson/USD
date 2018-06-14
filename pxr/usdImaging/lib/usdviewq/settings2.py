@@ -22,7 +22,7 @@
 # language governing permissions and limitations under the Apache License.
 #
 
-from __future__ import print_function
+
 import os, sys, json
 
 
@@ -89,7 +89,7 @@ class StateSource(object):
         if valueType is not prop.propType:
             if valueType is int and prop.propType is float:
                 pass # ints are valid for float types.
-            elif prop.propType in (str, unicode) and valueType in (str, unicode):
+            elif prop.propType in (str, str) and valueType in (str, str):
                 pass # str and unicode can be used interchangeably.
             else:
                 print("Value {} has type {} but state property {} has type {}.".format(
@@ -129,7 +129,7 @@ class StateSource(object):
                 newState[name] = prop.default
 
         # Make sure no state properties were forgotten.
-        for prop in self._stateSourceProperties.values():
+        for prop in list(self._stateSourceProperties.values()):
             if prop.name not in newState:
                 print("State property {} not saved.".format(repr(prop.name)),
                         file=sys.stderr)
@@ -139,7 +139,7 @@ class StateSource(object):
         self._getState().update(newState)
 
         # Save all child states.
-        for child in self._childStateSources.values():
+        for child in list(self._childStateSources.values()):
             child._saveState()
 
     def stateProperty(self, name, default, propType=None, validator=lambda value: True):

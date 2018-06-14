@@ -21,11 +21,11 @@
 # KIND, either express or implied. See the Apache License for the specific
 # language governing permissions and limitations under the Apache License.
 #
-from qt import QtCore, QtGui, QtWidgets
+from .qt import QtCore, QtGui, QtWidgets
 import os, time, sys, platform
 from pxr import Tf, Sdf, Kind, Usd, UsdGeom, UsdShade
-from customAttributes import CustomAttribute
-from constantGroup import ConstantGroup
+from .customAttributes import CustomAttribute
+from .constantGroup import ConstantGroup
 
 DEBUG_CLIPPING = "USDVIEWQ_DEBUG_CLIPPING"
 
@@ -154,7 +154,7 @@ class UIFonts(ConstantGroup):
     ABSTRACT_PRIM = NORMAL
 
 class PropertyViewIndex(ConstantGroup):
-    TYPE, NAME, VALUE = range(3)
+    TYPE, NAME, VALUE = list(range(3))
 
 ICON_DIR_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'icons')
 
@@ -253,10 +253,10 @@ def ColorizeLabelText(text, substring, r, g, b):
 
 def PrintWarning(title, description):
     msg = sys.stderr
-    print >> msg, "------------------------------------------------------------"
-    print >> msg, "WARNING: %s" % title
-    print >> msg, description
-    print >> msg, "------------------------------------------------------------"
+    print("------------------------------------------------------------", file=msg)
+    print("WARNING: %s" % title, file=msg)
+    print(description, file=msg)
+    print("------------------------------------------------------------", file=msg)
 
 def GetShortString(prop, frame):
     if isinstance(prop, Usd.Relationship):
@@ -279,7 +279,7 @@ def GetShortString(prop, frame):
     elif isinstance(prop, Sdf.RelationshipSpec):
         return str(prop.targetPathList)
 
-    from scalarTypes import GetScalarTypeFromAttr
+    from .scalarTypes import GetScalarTypeFromAttr
     scalarType, isArray = GetScalarTypeFromAttr(prop)
     result = ''
     if isArray and not isinstance(val, Sdf.ValueBlock):
@@ -382,7 +382,7 @@ def _AddSubLayers(layer, layerOffset, prefix, parentLayer, layers):
             addedPrefix = "     "
             _AddSubLayers(subLayer, offset, addedPrefix + prefix, layer, layers)
         else:
-            print "Could not find layer " + l
+            print("Could not find layer " + l)
 
 def GetRootLayerStackInfo(layer):
     layers = []
@@ -424,7 +424,7 @@ class Timer(object):
         self.interval = self._end - self._start
 
     def PrintTime(self, action):
-        print "Time to %s: %2.3fs" % (action, self.interval)
+        print("Time to %s: %2.3fs" % (action, self.interval))
 
 
 class BusyContext(object):
@@ -555,8 +555,8 @@ def GetAssetCreationTime(primStack, assetIdentifier):
         definingFile = definingLayer.realPath
     else:
         definingFile = primStack[-1].layer.realPath
-        print "Warning: Could not find expected asset-defining layer for %s" %\
-            assetIdentifier
+        print("Warning: Could not find expected asset-defining layer for %s" %\
+            assetIdentifier)
 
     stat_info = os.stat(definingFile)
     return (definingFile.split('/')[-1],
@@ -581,12 +581,12 @@ def DumpMallocTags(stage, contextStr):
         statsFile.close()
         reportName = statsFile.name
         callTree.Report(reportName)
-        print "Memory consumption of %s for %s is %d Mb" % (contextStr,
+        print("Memory consumption of %s for %s is %d Mb" % (contextStr,
                                                             layerName,
-                                                            memInMb)
-        print "For detailed analysis, see " + reportName
+                                                            memInMb))
+        print("For detailed analysis, see " + reportName)
     else:
-        print "Unable to accumulate memory usage since the Pxr MallocTag system was not initialized"
+        print("Unable to accumulate memory usage since the Pxr MallocTag system was not initialized")
 
 def GetInstanceIdForIndex(prim, instanceIndex, time):
     '''Attempt to find an authored Id value for the instance at index

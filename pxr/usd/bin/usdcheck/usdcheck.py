@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     def status(ok, path):
         if not opts.quiet:
-            print '{:3} {}'.format('OK' if ok else 'ERR', path)
+            print('{:3} {}'.format('OK' if ok else 'ERR', path))
 
     from pxr import Sdf, Tf
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         except Exception as e:
             status(False, p)
             if not opts.quiet:
-                print e
+                print(e)
             exitCode = 2
 
     import sys

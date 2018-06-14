@@ -27,8 +27,8 @@ def _testBasic(appController):
     # Ensure that no plugin menus are loaded.
     menuItems = [a for a in appController._mainWindow.menuBar().actions()
                  if not a.isSeparator()]
-    expectedItems = [u'&File', u'Edit Prim(s)', u'&Options', 
-                     u'&View', u'Window', u'Debug']
+    expectedItems = ['&File', 'Edit Prim(s)', '&Options', 
+                     '&View', 'Window', 'Debug']
     actualItems = [p.text() for p in menuItems]
     failureStr = str(expectedItems) + ' != ' + str(actualItems)
     assert actualItems == expectedItems, failureStr

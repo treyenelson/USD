@@ -31,7 +31,7 @@
 import os, sys
 
 if len(sys.argv) != 3:
-    print "Usage: {0} src dst".format(sys.argv[0])
+    print("Usage: {0} src dst".format(sys.argv[0]))
     sys.exit(1)
 
 srcFile = sys.argv[1]
@@ -47,8 +47,8 @@ except os.error:
     pass
 
 if not os.path.isdir(dstDir):
-    print ("ERROR: Destination directory {0} was not created for {1}"
-           .format(dstDir, os.path.basename(dstFile)))
+    print(("ERROR: Destination directory {0} was not created for {1}"
+           .format(dstDir, os.path.basename(dstFile))))
     sys.exit(1)
 
 # Copy source file to destination, prepending '#line' directive.

@@ -22,7 +22,7 @@
 # language governing permissions and limitations under the Apache License.
 #
 
-from constantGroup import ConstantGroup
+from .constantGroup import ConstantGroup
 
 
 class ComputedPropertyNames(ConstantGroup):
@@ -82,7 +82,7 @@ class BoundingBoxAttribute(CustomAttribute):
         try:
             bbox = self._rootDataModel.computeWorldBound(self._currentPrim)
 
-        except RuntimeError, err:
+        except RuntimeError as err:
             bbox = "Invalid: " + str(err)
 
         return bbox
@@ -100,7 +100,7 @@ class LocalToWorldXformAttribute(CustomAttribute):
     def Get(self, frame):
         try:
             pwt = self._rootDataModel.getLocalToWorldTransform(self._currentPrim)
-        except RuntimeError, err:
+        except RuntimeError as err:
             pwt = "Invalid: " + str(err)
 
         return pwt

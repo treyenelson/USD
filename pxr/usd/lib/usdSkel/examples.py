@@ -49,11 +49,11 @@ def PrintSkelsAndSkinnedPrims(skelRoot):
     for prim in Usd.PrimRange(skelRoot.GetPrim()):
         query = cache.GetSkelQuery(prim)
         if query:
-            print query
-            print "Skinnned prims:"
+            print(query)
+            print("Skinnned prims:")
 
             for skinnedPrim,skinningQuery in cache.ComputeSkinnedPrims(prim):
-                print "\t" + str(skinnedPrim.GetPath())
+                print("\t" + str(skinnedPrim.GetPath()))
 #! [PrintSkelsAndSkinnedPrims]
 
 

@@ -714,15 +714,15 @@ class testUsdMayaXformStack(unittest.TestCase):
         
     def testMatchingSubstack_maya_full(self):
         self.makeMayaStackAttrs()
-        self.doSubstackTest(self.stack, self.ops.keys())
+        self.doSubstackTest(self.stack, list(self.ops.keys()))
         
     def testMatchingSubstack_common_full(self):
         self.makeCommonStackAttrs()
-        self.doSubstackTest(self.stack, self.ops.keys())
+        self.doSubstackTest(self.stack, list(self.ops.keys()))
         
     def testMatchingSubstack_matrix_full(self):
         self.makeMatrixStackAttrs()
-        self.doSubstackTest(self.stack, self.ops.keys())
+        self.doSubstackTest(self.stack, list(self.ops.keys()))
 
     def testMatchingSubstack_maya_empty(self):
         self.makeMayaStackAttrs()
@@ -741,7 +741,7 @@ class testUsdMayaXformStack(unittest.TestCase):
         pairedIndices = set()
         for invertPair in stack.GetInversionTwins():
             pairedIndices.update(invertPair)
-        for i in xrange(len(allOpNames)):
+        for i in range(len(allOpNames)):
             missingOp = allOpNames[i]
             opsMinus1 = allOpNames[:i] + allOpNames[i + 1:]
             # if the one we're taking out is a member of the inversion twins,
@@ -753,18 +753,18 @@ class testUsdMayaXformStack(unittest.TestCase):
 
     def testMatchingSubstack_maya_missing1(self):
         self.makeMayaStackAttrs()
-        self.doMissing1SubstackTests(self.stack, self.ops.keys())
+        self.doMissing1SubstackTests(self.stack, list(self.ops.keys()))
 
     def testMatchingSubstack_common_missing1(self):
         self.makeCommonStackAttrs()
-        self.doMissing1SubstackTests(self.stack, self.ops.keys())
+        self.doMissing1SubstackTests(self.stack, list(self.ops.keys()))
 
     def doOnly1SubstackTests(self, stack, allOpNames):
         self.longMessage = True
         pairedIndices = set()
         for invertPair in stack.GetInversionTwins():
             pairedIndices.update(invertPair)
-        for i in xrange(len(allOpNames)):
+        for i in range(len(allOpNames)):
             onlyOp = allOpNames[i]
             # if the one we're taking is a member of the inversion twins,
             # then we should get back a non-match
@@ -775,11 +775,11 @@ class testUsdMayaXformStack(unittest.TestCase):
 
     def testMatchingSubstack_maya_only1(self):
         self.makeMayaStackAttrs()
-        self.doOnly1SubstackTests(self.stack, self.ops.keys())
+        self.doOnly1SubstackTests(self.stack, list(self.ops.keys()))
 
     def testMatchingSubstack_common_only1(self):
         self.makeCommonStackAttrs()
-        self.doOnly1SubstackTests(self.stack, self.ops.keys())
+        self.doOnly1SubstackTests(self.stack, list(self.ops.keys()))
 
     def doTwinSubstackTests(self, stack, allOpNames):
         twins = stack.GetInversionTwins()
@@ -788,7 +788,7 @@ class testUsdMayaXformStack(unittest.TestCase):
         #   [firstPair]
         #   [secondPair]
         #   [firstPair, secondPair]
-        for numPairs in xrange(1, len(twins) + 1):
+        for numPairs in range(1, len(twins) + 1):
             for pairSet in itertools.combinations(twins, numPairs):
                 usedIndices = set()
                 for pair in pairSet:
@@ -800,11 +800,11 @@ class testUsdMayaXformStack(unittest.TestCase):
 
     def testMatchingSubstack_maya_twins(self):
         self.makeMayaStackAttrs()
-        self.doTwinSubstackTests(self.stack, self.ops.keys())
+        self.doTwinSubstackTests(self.stack, list(self.ops.keys()))
 
     def testMatchingSubstack_common_twins(self):
         self.makeCommonStackAttrs()
-        self.doTwinSubstackTests(self.stack, self.ops.keys())
+        self.doTwinSubstackTests(self.stack, list(self.ops.keys()))
         
     def testMatchingSubstack_maya_half(self):
         self.makeMayaStackAttrs()
@@ -1122,7 +1122,7 @@ class testUsdMayaXformStack(unittest.TestCase):
         }
         
         expectedList = [mayaStack.FindOp('translate'), mayaStack.FindOp('rotate')]
-        for rotateOpName, expectedRotateOrder in allRotates.iteritems():
+        for rotateOpName, expectedRotateOrder in allRotates.items():
             orderedOps = [self.ops['translate'], self.ops[rotateOpName]]
             for stackList in (
                     [],

@@ -25,9 +25,9 @@
 from collections import OrderedDict
 
 from pxr import Sdf, Gf
-from qt import QtCore
+from .qt import QtCore
 
-from customAttributes import (ComputedPropertyNames, BoundingBoxAttribute,
+from .customAttributes import (ComputedPropertyNames, BoundingBoxAttribute,
     LocalToWorldXformAttribute, ComputedPropertyFactory)
 
 
@@ -132,7 +132,7 @@ class _PrimSelection(object):
     def clear(self):
         """Clear the path selection."""
 
-        for path in self._selection.keys():
+        for path in list(self._selection.keys()):
             self._clearPrimPath(path)
 
     def addPrimPath(self, path, instance=ALL_INSTANCES):
@@ -222,7 +222,7 @@ class _PrimSelection(object):
 
         return OrderedDict(
             (path, set(instances)) if isinstance(instances, set) else (path, instances)
-            for path, instances in self._selection.items())
+            for path, instances in list(self._selection.items()))
 
     def getDiff(self):
         """Get the prims added to or removed from the selection since the last
@@ -308,7 +308,7 @@ class _PropSelection(object):
         """
 
         propTargets = OrderedDict()
-        for propTuple, targets in self._selection.items():
+        for propTuple, targets in list(self._selection.items()):
             propTargets[propTuple] = set(targets)
 
         return propTargets
@@ -539,7 +539,7 @@ class SelectionDataModel(QtCore.QObject):
             # Root prim cannot have non-computed properties. The property paths
             # in this case are invalid.
             if str(toPrimPath) != "/":
-                for propPath, targets in propTargets.items():
+                for propPath, targets in list(propTargets.items()):
                     newPropPath = self._buildPropPath(toPrimPath, propPath.name)
                     self.addPropPath(newPropPath)
                     for target in targets:
@@ -726,7 +726,7 @@ class SelectionDataModel(QtCore.QObject):
 
         return OrderedDict(
             (self._rootDataModel.stage.GetPrimAtPath(path), instance)
-            for path, instance in self.getPrimPathInstances().items())
+            for path, instance in list(self.getPrimPathInstances().items()))
 
     def switchToPrim(self, prim, instance=ALL_INSTANCES):
         """Select only the given prim. If only a single prim was selected before
@@ -839,7 +839,7 @@ class SelectionDataModel(QtCore.QObject):
         self._requireNotBatchingProps()
 
         return OrderedDict((self._buildPropPath(*propTuple), set(targets))
-            for propTuple, targets in self._propSelection.getTargets().items())
+            for propTuple, targets in list(self._propSelection.getTargets().items()))
 
     ### Property Operations ###
 
@@ -898,7 +898,7 @@ class SelectionDataModel(QtCore.QObject):
         """
 
         propTargets = OrderedDict()
-        for propPath, targetPaths in self.getPropTargetPaths().items():
+        for propPath, targetPaths in list(self.getPropTargetPaths().items()):
 
             prop = self._getPropFromPath(propPath)
             targets = {self._getTargetFromPath(target)

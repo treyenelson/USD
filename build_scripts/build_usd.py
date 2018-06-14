@@ -23,6 +23,8 @@
 #
 from distutils.spawn import find_executable
 
+import sys
+print(sys.version)
 import argparse
 import contextlib
 import datetime
@@ -37,7 +39,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import zipfile
 
 # Helpers for printing output
@@ -45,22 +47,22 @@ verbosity = 1
 
 def Print(msg):
     if verbosity > 0:
-        print msg
+        print(msg)
 
 def PrintStatus(status):
     if verbosity >= 1:
-        print "STATUS:", status
+        print("STATUS:", status)
 
 def PrintInfo(info):
     if verbosity >= 2:
-        print "INFO:", info
+        print("INFO:", info)
 
 def PrintCommandOutput(output):
     if verbosity >= 3:
         sys.stdout.write(output)
 
 def PrintError(error):
-    print "ERROR:", error
+    print("ERROR:", error)
 
 # Helpers for determining platform
 def Windows():
@@ -124,7 +126,7 @@ def Run(cmd, logCommandOutput = True):
             while True:
                 l = p.stdout.readline()
                 if l != "":
-                    logfile.write(l)
+                    logfile.write(l.decode('utf-8'))
                     PrintCommandOutput(l)
                 elif p.poll() is not None:
                     break
@@ -274,7 +276,7 @@ def DownloadURL(url, context, force, dontExtract = None):
             if os.path.exists(tmpFilename):
                 os.remove(tmpFilename)
 
-            for i in xrange(maxRetries):
+            for i in range(maxRetries):
                 try:
                     if context.useCurl:
                         # Don't log command output so that curl's progress
@@ -284,7 +286,7 @@ def DownloadURL(url, context, force, dontExtract = None):
                             filename=tmpFilename, url=url), 
                             logCommandOutput=False)
                     else:
-                        r = urllib2.urlopen(url)
+                        r = urllib.request.urlopen(url)
                         with open(tmpFilename, "wb") as outfile:
                             outfile.write(r.read())
 
@@ -1403,6 +1405,7 @@ try:
     InstallUSD(context)
 except Exception as e:
     PrintError(str(e))
+    raise e
     sys.exit(1)
 
 # Done. Print out a final status message.

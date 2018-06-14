@@ -141,7 +141,7 @@ class TestUsdShadeShaders(unittest.TestCase):
         self.assertEqual(whiterPale.GetIdAttr().Get(), 'SharedColor_1')
 
         # Test boundaries of parameter type-testing when connecting
-        print "Test Typed Input Connections"
+        print("Test Typed Input Connections")
 
         colInput = pale.CreateInput("col1", Sdf.ValueTypeNames.Color3f);
         self.assertTrue(colInput)
@@ -173,7 +173,7 @@ class TestUsdShadeShaders(unittest.TestCase):
         outputAttr = whiterPale.GetPrim().GetAttribute("inputs:floatInput")
         self.assertTrue(outputAttr)
 
-        print "Test Input Fetching"
+        print("Test Input Fetching")
         # test against single input fetches
         vecInput = pale.CreateInput('vec', Sdf.ValueTypeNames.Color3f)
         self.assertTrue(vecInput)

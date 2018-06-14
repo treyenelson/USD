@@ -21,7 +21,7 @@
 # KIND, either express or implied. See the Apache License for the specific
 # language governing permissions and limitations under the Apache License.
 #
-from qt import QtCore, QtGui, QtWidgets
+from .qt import QtCore, QtGui, QtWidgets
 
 class _ArrayAttributeModel(QtCore.QAbstractListModel):
     def __init__(self, attr, frame):
@@ -29,7 +29,7 @@ class _ArrayAttributeModel(QtCore.QAbstractListModel):
         self.val = attr.Get(frame)
         self._rowCount = 0 if self.val is None else len(self.val)
         self._publishedRows = 0
-        from scalarTypes import GetScalarTypeFromAttr
+        from .scalarTypes import GetScalarTypeFromAttr
         self._scalarTypeName, _ = GetScalarTypeFromAttr(attr)
 
     def rowCount(self, *args):
@@ -39,12 +39,12 @@ class _ArrayAttributeModel(QtCore.QAbstractListModel):
         dataVal = self.val[index.row()]
 
         if role == QtCore.Qt.DisplayRole:
-            from scalarTypes import ToString
+            from .scalarTypes import ToString
             return str(index.row()) + ": " + ToString(
                 dataVal, self._scalarTypeName)
 
         elif role == QtCore.Qt.AccessibleTextRole:
-            from scalarTypes import ToClipboard
+            from .scalarTypes import ToClipboard
             return ToClipboard(dataVal, self._scalarTypeName)
 
         return None

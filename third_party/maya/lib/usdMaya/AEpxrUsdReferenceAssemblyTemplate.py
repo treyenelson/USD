@@ -156,7 +156,7 @@ def variantSets_Replace(nodeAttr, new):
                 variantSetsDict[variantSetName]['settable'] = cmds.getAttr('%s.%s'%(node, variantAttrName), settable=True)
 
     # Construct the UI from the variantSetsDict
-    for variantSetName,variantSetDict in variantSetsDict.items():
+    for variantSetName,variantSetDict in list(variantSetsDict.items()):
         variantResolved = variantSetDict.get('selection', '')
         variantOverride = variantSetDict.get('override', '')
         variantSetChoices = [''] + variantSetDict['variants']
@@ -172,7 +172,7 @@ def variantSets_Replace(nodeAttr, new):
             cmds.menuItem(label=choice)
         try:
             cmds.optionMenuGrp(omg, e=True, value=variantOverride)
-        except RuntimeError, e:
+        except RuntimeError as e:
             cmds.warning('Invalid choice %r for %r'%(variantOverride, variantSetName))
 
         cmds.optionMenuGrp(omg, e=True, changeCommand=functools.partial(variantSets_changeCommmand, omg=omg, node=node, variantSetName=variantSetName))

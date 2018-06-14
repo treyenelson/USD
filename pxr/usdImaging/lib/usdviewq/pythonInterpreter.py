@@ -23,8 +23,8 @@
 #
 from pxr import Tf
 
-from qt import QtCore, QtGui, QtWidgets
-from usdviewApi import UsdviewApi
+from .qt import QtCore, QtGui, QtWidgets
+from .usdviewApi import UsdviewApi
 
 from code import InteractiveInterpreter
 import os, sys, keyword
@@ -33,7 +33,7 @@ import os, sys, keyword
 def _PrintToErr(line):
     old = sys.stdout
     sys.stdout = sys.__stderr__
-    print line
+    print(line)
     sys.stdout = old
 
 def _Redirected(method):
@@ -75,11 +75,11 @@ class _Completer(object):
         Return a list of all keywords, built-in functions and names
         currently defines in __main__ that match.
         """
-        import __builtin__, __main__
+        import builtins, __main__
         matches = set()
         n = len(text)
-        for l in [keyword.kwlist,__builtin__.__dict__.keys(),
-                  __main__.__dict__.keys(), self.locals.keys()]:
+        for l in [keyword.kwlist,list(builtins.__dict__.keys()),
+                  list(__main__.__dict__.keys()), list(self.locals.keys())]:
             for word in l:
                 if word[:n] == text and word != "__builtins__":
                     matches.add(word)
@@ -293,7 +293,7 @@ class Controller(QtCore.QObject):
 
     def _DoAutoImports(self):
         modules = Tf.ScriptModuleLoader().GetModulesDict()
-        for name, mod in modules.items():
+        for name, mod in list(modules.items()):
             self.interpreter.runsource('import ' + mod.__name__ +
                                        ' as ' + name + '\n')
 
@@ -483,8 +483,8 @@ class Controller(QtCore.QObject):
             index = 0
             completionsLength = len(completions)
 
-            for col in xrange(0,numCols):
-                for row in xrange(0,numRows):
+            for col in range(0,numCols):
+                for row in range(0,numRows):
                     cellNum = (row * numCols) + col
                     if (cellNum >= completionsLength):
                         continue

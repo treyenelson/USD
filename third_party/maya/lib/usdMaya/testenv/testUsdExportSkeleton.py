@@ -50,8 +50,8 @@ class testUsdExportSkeleton(unittest.TestCase):
         standalone.uninitialize()
 
     def _AssertMatricesClose(self, gfm1, gfm2):
-        for i in xrange(0, 4):
-            for j in xrange(0, 4):
+        for i in range(0, 4):
+            for j in range(0, 4):
                 self.assertAlmostEqual(gfm1[i][j], gfm2[i][j], places=3)
 
     def testSkeletonTopology(self):
@@ -105,7 +105,7 @@ class testUsdExportSkeleton(unittest.TestCase):
         rArmDagPath = selList.getDagPath(0)
         fnTransform = OM.MFnTransform(rArmDagPath)
 
-        for i in xrange(1, 31):
+        for i in range(1, 31):
             cmds.currentTime(i, edit=True)
 
             mayaXf = fnTransform.transformation().asMatrix()

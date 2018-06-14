@@ -32,7 +32,7 @@ else:
     from PySide.QtCore import *
 
 import re
-from treemodel import *
+from .treemodel import *
 
 #
 # Global variables
@@ -47,7 +47,7 @@ def CompatibleNodeTypes():
     nodeTypes = []
 
     for category in [hou.objNodeTypeCategory, hou.sopNodeTypeCategory]:
-        for key,value in category().nodeTypes().items():
+        for key,value in list(category().nodeTypes().items()):
             if NodeTypeLowerCase not in key.lower():
                 continue
 
@@ -395,7 +395,7 @@ class TreeItemDelegate(QStyledItemDelegate):
         QStyledItemDelegate.__init__(self)
 
     def displayText(self, value, locale):
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return ''
         return super(TreeItemDelegate, self).displayText(value, locale)
 
@@ -842,9 +842,9 @@ class TreeView(QFrame):
                     profile = str(index.row()) + profile
                     index = index.parent()
                 profiles.append(profile)
-            zipped = zip(profiles, indexes)
+            zipped = list(zip(profiles, indexes))
             zipped.sort()
-            profiles, indexes = zip(*zipped)
+            profiles, indexes = list(zip(*zipped))
 
         selection = ''
         for i, index in enumerate(indexes):

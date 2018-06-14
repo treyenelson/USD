@@ -34,7 +34,7 @@ if node:
     try:
         f = hou.findFile( 'scripts/obj/pixar-usdcamera-site.py' )
         if( f ):
-            execfile( f )
+            exec(compile(open( f ).read(), f, 'exec'))
 
     except:
         pass

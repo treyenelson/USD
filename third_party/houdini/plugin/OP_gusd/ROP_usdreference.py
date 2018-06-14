@@ -29,7 +29,7 @@
 # file (the container) that is named the right thing. Then the referenced files 
 # can contain data in some generic namespace.
 
-from __future__ import print_function
+
 
 import soho
 from glob import glob

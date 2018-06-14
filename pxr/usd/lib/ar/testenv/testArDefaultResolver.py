@@ -72,7 +72,7 @@ class TestArDefaultResolver(unittest.TestCase):
         testFileName = 'test_Resolve.txt'
         testFilePath = os.path.abspath(testFileName)
         with open(testFilePath, 'w') as ofp:
-            print >>ofp, 'Garbage'
+            print('Garbage', file=ofp)
         
         resolvedPath = Ar.GetResolver().Resolve(testFileName)
 
@@ -89,7 +89,7 @@ class TestArDefaultResolver(unittest.TestCase):
         testFileName = 'test_ResolveWithContext.txt'
         testFilePath = os.path.join(testDir, testFileName) 
         with open(testFilePath, 'w') as ofp:
-            print >>ofp, 'Garbage'
+            print('Garbage', file=ofp)
         
         resolver = Ar.GetResolver()
 
@@ -110,7 +110,7 @@ class TestArDefaultResolver(unittest.TestCase):
         testFileName = 'test_ResolveWithContext.txt'
         testFilePath = os.path.join(testDir, testFileName) 
         with open(testFilePath, 'w') as ofp:
-            print >>ofp, 'Garbage'
+            print('Garbage', file=ofp)
         
         resolver = Ar.GetResolver()
         context = Ar.DefaultResolverContext([

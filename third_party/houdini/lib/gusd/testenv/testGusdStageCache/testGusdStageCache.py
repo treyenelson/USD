@@ -261,7 +261,7 @@ class TestGusdStageCache(unittest.TestCase):
         validPrimPaths = primPaths[2:]
         self.assertTrue(
             all(validPrims[i].GetPath() == Sdf.Path(validPrimPaths[i])
-                for i in xrange(len(validPrims))))
+                for i in range(len(validPrims))))
 
         # Prims should have been batched during loading, so prims referring
         # to the same stage on the input spec should be referencing

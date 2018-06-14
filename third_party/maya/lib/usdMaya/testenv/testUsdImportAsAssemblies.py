@@ -65,7 +65,7 @@ class testUsdImportAsAssemblies(unittest.TestCase):
         Returns a dictionary mapping Maya node names to the type of that node
         for all nodes underneath and including nodeName.
         """
-        dagNodeNames = cmds.ls(nodeName, dag=True, long=True)
+        dagNodeNames = cmds.ls(nodeName, dag=True, int=True)
 
         result = {}
         for dagNodeName in dagNodeNames:
@@ -124,7 +124,7 @@ class testUsdImportAsAssemblies(unittest.TestCase):
         nodeHierarchy = self._GetNodeHierarchy(nodeName)
         self.assertEqual(nodeHierarchy, expectedHierarchy)
 
-        for i in xrange(1, 4):
+        for i in range(1, 4):
             assemblyNodeName = '|Cubes_grp|Cube_%d' % i
             self._ValidateModelAssemblyNode(assemblyNodeName)
 
@@ -144,7 +144,7 @@ class testUsdImportAsAssemblies(unittest.TestCase):
         nodeHierarchy = self._GetNodeHierarchy(nodeName)
         self.assertEqual(nodeHierarchy, expectedHierarchy)
 
-        for i in xrange(1, 4):
+        for i in range(1, 4):
             assemblyNodeName = '|Cubes_set|Cubes_grp|Cube_%d' % i
             self._ValidateModelAssemblyNode(assemblyNodeName)
 

@@ -202,7 +202,7 @@ def _ShouldEnableDoublePrecisionEditor(mayaAttrName):
     if not mayaAttrName:
         return False
 
-    selectedNodeNames = cmds.ls(selection=True, long=True)
+    selectedNodeNames = cmds.ls(selection=True, int=True)
     if not selectedNodeNames:
         return False
 
@@ -375,8 +375,7 @@ class ExportedAttribute(object):
         exportedAttrs = ExportedAttribute.GetExportedAttributesFromNode(nodeName)
 
         # Filter out the attrs whose names are in mayaAttrNames.
-        exportedAttrs = filter(
-            lambda x: x.mayaAttrName not in mayaAttrNames, exportedAttrs)
+        exportedAttrs = [x for x in exportedAttrs if x.mayaAttrName not in mayaAttrNames]
 
         ExportedAttribute._WriteExportedAttributesToNode(nodeName, exportedAttrs)
 
@@ -542,7 +541,7 @@ class ExportedAttributesModel(QtCore.QAbstractTableModel):
             return False
 
         # Update the selected nodes with the new data.
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             return False
 
@@ -593,7 +592,7 @@ class ExportedAttributesModel(QtCore.QAbstractTableModel):
     def dropMimeData(self, mimeData, action, row, column, parent):
         # When attributes are dropped here, it means they are being added
         # as user exported attributes.
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             return True
 
@@ -689,7 +688,7 @@ class AddAttributesModel(QStringListModel):
     def dropMimeData(self, mimeData, action, row, column, parent):
         # When attributes are dropped here, it means they are being removed
         # as user exported attributes.
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             return True
 
@@ -822,7 +821,7 @@ class UserExportedAttributeWidget(mayaMixin.MayaQWidgetDockableMixin, QWidget):
             self.addExportedAttrButton.setEnabled(True)
 
     def _onRemoveExportedAttrPressed(self):
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             return
 
@@ -837,7 +836,7 @@ class UserExportedAttributeWidget(mayaMixin.MayaQWidgetDockableMixin, QWidget):
         self._syncUI()
 
     def _onAddExportedAttrPressed(self):
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             return
 
@@ -861,7 +860,7 @@ class UserExportedAttributeWidget(mayaMixin.MayaQWidgetDockableMixin, QWidget):
         self.removeExportedAttrButton.setEnabled(False)
         self.addExportedAttrButton.setEnabled(False)
 
-        selectedNodeNames = cmds.ls(selection=True, long=True)
+        selectedNodeNames = cmds.ls(selection=True, int=True)
         if not selectedNodeNames:
             self.addAttrsModel.setStringList([])
             self.exportedAttrsModel.exportedAttributes = []
@@ -898,7 +897,7 @@ class UserExportedAttributeWidget(mayaMixin.MayaQWidgetDockableMixin, QWidget):
         # primvarInterpolation would only appear when the table cell is put into
         # edit mode. Instead, we want the combo boxes to always be visible, so
         # we tell the view to open them as persistent editors.
-        for row in xrange(self.exportedAttrsModel.rowCount()):
+        for row in range(self.exportedAttrsModel.rowCount()):
             usdAttrTypeIndex = self.exportedAttrsModel.index(row,
                 ExportedAttributesModel.USD_ATTR_TYPE_COLUMN)
             self.exportedAttrsView.openPersistentEditor(usdAttrTypeIndex)

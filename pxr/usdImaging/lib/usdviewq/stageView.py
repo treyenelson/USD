@@ -29,7 +29,7 @@ from math import tan, floor, ceil, radians as rad
 import os, sys
 from time import time
 
-from qt import QtCore, QtGui, QtWidgets, QtOpenGL
+from .qt import QtCore, QtGui, QtWidgets, QtOpenGL
 
 from pxr import Tf
 from pxr import Gf
@@ -38,12 +38,12 @@ from pxr import Sdf, Usd, UsdGeom
 from pxr import UsdImagingGL
 from pxr import CameraUtil
 
-from common import (RenderModes, ShadedRenderModes, Timer,
+from .common import (RenderModes, ShadedRenderModes, Timer,
     GetInstanceIndicesForIds, SelectionHighlightModes, DEBUG_CLIPPING)
-from rootDataModel import RootDataModel
-from selectionDataModel import ALL_INSTANCES, SelectionDataModel
-from viewSettingsDataModel import ViewSettingsDataModel
-from freeCamera import FreeCamera
+from .rootDataModel import RootDataModel
+from .selectionDataModel import ALL_INSTANCES, SelectionDataModel
+from .viewSettingsDataModel import ViewSettingsDataModel
+from .freeCamera import FreeCamera
 
 # A viewport rectangle to be used for GL must be integer values.
 # In order to loose the least amount of precision the viewport
@@ -104,9 +104,9 @@ class GLSLProgram():
         GL.glLinkProgram(self.program)
 
         if GL.glGetProgramiv(self.program, GL.GL_LINK_STATUS) == GL.GL_FALSE:
-            print GL.glGetShaderInfoLog(vertexShader)
-            print GL.glGetShaderInfoLog(fragmentShader)
-            print GL.glGetProgramInfoLog(self.program)
+            print(GL.glGetShaderInfoLog(vertexShader))
+            print(GL.glGetShaderInfoLog(fragmentShader))
+            print(GL.glGetProgramInfoLog(self.program))
             GL.glDeleteShader(vertexShader)
             GL.glDeleteShader(fragmentShader)
             GL.glDeleteProgram(self.program)
@@ -130,7 +130,7 @@ class Rect():
     @classmethod
     def fromXYWH(cls, xywh):
         self = cls()
-        self.xywh[:] = map(float, xywh[:4])
+        self.xywh[:] = list(map(float, xywh[:4]))
         return self
 
     @classmethod
@@ -531,13 +531,13 @@ class HUD():
         painter = group.painter
         painter.begin(group.qimage)
 
-        from prettyPrint import prettyPrint
+        from .prettyPrint import prettyPrint
         if keys is None:
             keys = sorted(dic.keys())
 
         # find the longest key so we know how far from the edge to print
         # add [0] at the end so that max() never gets an empty sequence
-        longestKeyLen = max([len(k) for k in dic.iterkeys()]+[0])
+        longestKeyLen = max([len(k) for k in dic.keys()]+[0])
         margin = int(longestKeyLen*1.4)
 
         painter.setFont(self._HUDFont)
@@ -545,7 +545,7 @@ class HUD():
         yy = 10 * self._pixelRatio
         lineSpacing = self._HUDLineSpacing * self._pixelRatio
         for key in keys:
-            if not dic.has_key(key):
+            if key not in dic:
                 continue
             line = key.rjust(margin) + ": " + str(prettyPrint(dic[key]))
             # Shadow of text
@@ -1751,7 +1751,7 @@ class StageView(QtOpenGL.QGLWidget):
         if len(toPrint) > 0:
             self._hud.updateGroup("BottomLeft",
                                   0, self.height()-len(toPrint)*self._hud._HUDLineSpacing,
-                                  col, toPrint, toPrint.keys())
+                                  col, toPrint, list(toPrint.keys()))
 
         # draw HUD
         self._hud.draw(self)
@@ -1898,7 +1898,7 @@ class StageView(QtOpenGL.QGLWidget):
                 Gf.Range1d(trueFar/FreeCamera.maxSafeZResolution, trueFar)
             pickResults = self.pick(cameraFrustum)
             if Tf.Debug.IsDebugSymbolNameEnabled(DEBUG_CLIPPING):
-                print "computeAndSetClosestDistance: Needed to call pick() a second time"
+                print("computeAndSetClosestDistance: Needed to call pick() a second time")
 
         if pickResults[0] is not None and pickResults[1] != Sdf.Path.emptyPath:
             self._dataModel.viewSettings.freeCamera.setClosestVisibleDistFromPoint(pickResults[0])
@@ -1945,7 +1945,7 @@ class StageView(QtOpenGL.QGLWidget):
                 Gf.Matrix4d(1.0),
                 self._dataModel.stage.GetPseudoRoot(), self._renderParams)
         if Tf.Debug.IsDebugSymbolNameEnabled(DEBUG_CLIPPING):
-            print "Pick results = {}".format(results)
+            print("Pick results = {}".format(results))
 
         self.doneCurrent()
         return results

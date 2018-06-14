@@ -23,8 +23,8 @@
 #
 
 from pxr import Usd, UsdGeom
-from qt import QtCore
-from common import Timer, IncludedPurposes
+from .qt import QtCore
+from .common import Timer, IncludedPurposes
 
 
 class RootDataModel(QtCore.QObject):

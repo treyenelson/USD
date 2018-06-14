@@ -76,7 +76,7 @@ class testUsdImportSessionLayer(unittest.TestCase):
             '|Cubes|Geom|CubeOne',
             '|Cubes|Geom|CubeTwo',
             '|Cubes|Geom|CubeThree'])
-        mayaCubeNodesSet = set(cmds.ls('|Cubes|Geom|Cube*', long=True))
+        mayaCubeNodesSet = set(cmds.ls('|Cubes|Geom|Cube*', int=True))
         self.assertEqual(expectedMayaCubeNodesSet, mayaCubeNodesSet)
 
         # The import should have made the variant selections in a session layer,

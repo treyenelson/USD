@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 from pxr import Tf
 from pxr.Usdviewq.plugin import PluginContainer

@@ -616,7 +616,7 @@ class testUsdReferenceAssemblyChangeRepresentations(unittest.TestCase):
         assemblyTimePlug = '%s.time' % assemblyNode
         connections = cmds.listConnections(assemblyTimePlug,
             destination=False, source=True, plugs=True)
-        self.assertEqual(connections, [u'time1.outTime'])
+        self.assertEqual(connections, ['time1.outTime'])
 
     def _AssertTimeIsNotConnected(self, assemblyNode):
         """

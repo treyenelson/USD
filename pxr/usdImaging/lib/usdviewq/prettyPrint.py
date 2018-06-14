@@ -25,7 +25,7 @@
 Hopefully we can deprecate this since most of the array stuff is handled by the
 arrayAttributeView
 '''
-from qt import QtWidgets
+from .qt import QtWidgets
 
 def progressDialog(title, value):
     dialog = QtWidgets.QProgressDialog(title, "Cancel", 0, value)
@@ -40,7 +40,7 @@ def prettyPrint(v):
     # Pretty-print a dictionary
     if isinstance(v, dict):
         result = "Dictionary contents:\n"
-        for pair in v.items():
+        for pair in list(v.items()):
             keystring = str(pair[0])
             valstring = prettyPrint(pair[1])
             result += "------\n%s:\n%s\n" % (keystring, valstring)
@@ -71,7 +71,7 @@ def prettyPrint(v):
         result += ")\n"
         dialog.done(0)
     else:
-        from scalarTypes import ToString
+        from .scalarTypes import ToString
         result = ToString(v)
 
     return result

@@ -49,7 +49,7 @@ def _checkPrimSelection(appController, path):
 # Check that no instances are selected.
 def _checkNoInstancesSelected(appController, path):
     instanceSelection = appController._dataModel.selection.getPrimPathInstances()
-    for instances in instanceSelection.values():
+    for instances in list(instanceSelection.values()):
         assert instances == ALL_INSTANCES
 
 # Check that the specified instance is the only selected instance.
