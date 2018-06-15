@@ -24,7 +24,6 @@
 from distutils.spawn import find_executable
 
 import sys
-print(sys.version)
 import argparse
 import contextlib
 import datetime
@@ -125,7 +124,7 @@ def Run(cmd, logCommandOutput = True):
                                  stderr=subprocess.STDOUT)
             while True:
                 l = p.stdout.readline()
-                if l != "":
+                if l != b"":
                     logfile.write(l.decode('utf-8'))
                     PrintCommandOutput(l)
                 elif p.poll() is not None:
