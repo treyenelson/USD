@@ -435,7 +435,7 @@ def InstallBoost(context, force):
     with CurrentWorkingDirectory(DownloadURL(BOOST_URL, context, force, 
                                              dontExtract)):
         bootstrap = "bootstrap.bat" if Windows() else "./bootstrap.sh"
-        Run('{bootstrap} --prefix="{instDir}" --use-python=python2'
+        Run('{bootstrap} --prefix="{instDir}" --with-python=python2'
             .format(bootstrap=bootstrap, instDir=context.instDir))
 
         # b2 supports at most -j64 and will error if given a higher value.
