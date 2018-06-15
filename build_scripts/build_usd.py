@@ -23,7 +23,6 @@
 #
 from distutils.spawn import find_executable
 
-import sys
 import argparse
 import contextlib
 import datetime
@@ -38,7 +37,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-import urllib.request, urllib.error, urllib.parse
+import urllib2
 import zipfile
 
 # Helpers for printing output
@@ -46,22 +45,22 @@ verbosity = 1
 
 def Print(msg):
     if verbosity > 0:
-        print(msg)
+        print msg
 
 def PrintStatus(status):
     if verbosity >= 1:
-        print("STATUS:", status)
+        print "STATUS:", status
 
 def PrintInfo(info):
     if verbosity >= 2:
-        print("INFO:", info)
+        print "INFO:", info
 
 def PrintCommandOutput(output):
     if verbosity >= 3:
         sys.stdout.write(output)
 
 def PrintError(error):
-    print("ERROR:", error)
+    print "ERROR:", error
 
 # Helpers for determining platform
 def Windows():
@@ -124,8 +123,8 @@ def Run(cmd, logCommandOutput = True):
                                  stderr=subprocess.STDOUT)
             while True:
                 l = p.stdout.readline()
-                if l != b"":
-                    logfile.write(l.decode('utf-8'))
+                if l != "":
+                    logfile.write(l)
                     PrintCommandOutput(l)
                 elif p.poll() is not None:
                     break
@@ -275,7 +274,7 @@ def DownloadURL(url, context, force, dontExtract = None):
             if os.path.exists(tmpFilename):
                 os.remove(tmpFilename)
 
-            for i in range(maxRetries):
+            for i in xrange(maxRetries):
                 try:
                     if context.useCurl:
                         # Don't log command output so that curl's progress
@@ -285,7 +284,7 @@ def DownloadURL(url, context, force, dontExtract = None):
                             filename=tmpFilename, url=url), 
                             logCommandOutput=False)
                     else:
-                        r = urllib.request.urlopen(url)
+                        r = urllib2.urlopen(url)
                         with open(tmpFilename, "wb") as outfile:
                             outfile.write(r.read())
 
@@ -436,7 +435,7 @@ def InstallBoost(context, force):
     with CurrentWorkingDirectory(DownloadURL(BOOST_URL, context, force, 
                                              dontExtract)):
         bootstrap = "bootstrap.bat" if Windows() else "./bootstrap.sh"
-        Run('{bootstrap} --prefix="{instDir}" --with-python=python2'
+        Run('{bootstrap} --prefix="{instDir}" --use-python=python2'
             .format(bootstrap=bootstrap, instDir=context.instDir))
 
         # b2 supports at most -j64 and will error if given a higher value.
@@ -1404,7 +1403,6 @@ try:
     InstallUSD(context)
 except Exception as e:
     PrintError(str(e))
-    raise e
     sys.exit(1)
 
 # Done. Print out a final status message.
